@@ -3,57 +3,55 @@ require 'minitest/pride'
 
 class HashTest < Minitest::Test
   def test_empty
-    assert_equal __, {}.empty?
-    assert_equal __, {"a" => "apple"}.empty?
+    assert_equal true, {}.empty?
+    assert_equal false, {"a" => "apple"}.empty?
   end
 
   def test_access
-    skip
-    ages = {16 => ["Alice", "Bob"], 24 => ["Charlie", "Dave"], 37 => ["Eve"]}
+    ages = {16 => ["Alice", "Bob"], 
+            24 => ["Charlie", "Dave"], 
+            37 => ["Eve"]}
     
-    assert_equal __, ages[16]
-    assert_equal __, ages[37]
+    assert_equal ["Alice", "Bob"], ages[16]
+    assert_equal ["Eve"], ages[37]
   end
 
   def test_access_with_symbols
-    skip
     ages = {
       siblings: ["Alice", "Bob"], 
       brothers: ["Charlie", "Dave"], 
       only_child: ["Eve"]
     }
     
-    assert_equal __, ages[:siblings]
-    assert_equal __, ages[:only_child]
+    assert_equal ["Alice", "Bob"], ages[:siblings]
+    assert_equal ["Eve"], ages[:only_child]
   end
   
   def test_hash_alternative_symbol_assignment
-    skip
     new_restaurants = {
       "cultura": "Latin American", 
       "wallys": "Wisconsin treats",
       "hickory_ash": "Colorado-centric"
       }
     
-    assert_equal "Latin American", __
-    assert_equal "Wisconsin treats", __
-    assert_equal "Colorado-centric", __
+    assert_equal "Latin American", new_restaurants[:cultura]
+    assert_equal "Wisconsin treats", new_restaurants[:wallys]
+    assert_equal "Colorado-centric", new_restaurants[:hickory_ash]
   end
 
   def test_assignment
-    skip
-    stuff = {"a" => ["aardvark", "apple"], "b" => ["butcher", "ballerina"]}
+    stuff = {"a" => ["aardvark", "apple"], 
+             "b" => ["butcher", "ballerina"]}
     stuff["c"] = ["cook", "caramel candy"]
     stuff["b"] = "brandy"
     stuff["a"] = stuff["a"] + ["apricot"]
     
-    assert_equal __, stuff["a"]
-    assert_equal __, stuff["b"]
-    assert_equal __, stuff["c"]
+    assert_equal ["aardvark", "apple", "apricot"], stuff["a"]
+    assert_equal "brandy", stuff["b"]
+    assert_equal ["cook", "caramel candy"], stuff["c"]
   end
 
   def test_assignment_with_symbols
-    skip
     plants = {
       dahlia: ["Crichton Honey", "Whimsey", "Kasasagi"], 
       hollyhock: ["Chater's Salmon Queen", "Blackberry"]}
@@ -61,86 +59,84 @@ class HashTest < Minitest::Test
     plants[:hollyhock] = ["Majorette Mix"]
     plants[:dahlia] += ["Jitterbug"]
     
-    expected_dahlias = __
+    expected_dahlias = ["Crichton Honey", "Whimsey", "Kasasagi",
+                        "Jitterbug"]
     
     assert_equal expected_dahlias, plants[:dahlia]
-    assert_equal __, plants[:snapdragon]
-    assert_equal __, plants[:hollyhock]
+    assert_equal ["Black Prince", "Madame Butterfly"],
+                 plants[:snapdragon]
+    assert_equal ["Majorette Mix"], plants[:hollyhock]
   end
 
   def test_keys
-    skip
-    assert_equal __, {}.keys
-    assert_equal __, {1 => "one", 2 => "two"}.keys
-    assert_equal __, {"a" => "apple", "banana" => "b"}.keys
+    assert_equal [], {}.keys
+    assert_equal [1,2], {1 => "one", 2 => "two"}.keys
+    assert_equal ["a", "banana"], {"a" => "apple", "banana" => "b"}.keys
   end
 
   def test_keys_with_symbols
-    skip
-    assert_equal __, {france: "Paris", lithuania: "Vilnius"}.keys
-    assert_equal __, {forks: 10, spoons: 20}.keys
+    assert_equal [:france, :lithuania], 
+                 {france: "Paris", lithuania: "Vilnius"}.keys
+    assert_equal [:forks, :spoons], 
+                 {forks: 10, spoons: 20}.keys
   end
 
   def test_values
-    skip
-    assert_equal __, {}.values
-    assert_equal __, {1 => "one", 2 => "two"}.values
-    assert_equal __, {"a" => "apple", "banana" => "b"}.values
+    assert_equal [], {}.values
+    assert_equal ["one", "two"], {1 => "one", 2 => "two"}.values
+    assert_equal ["apple", "b"], {"a" => "apple", "banana" => "b"}.values
   end
   
   def test_values_with_symbols
-    skip
-    assert_equal __, {france: "Paris", lithuania: "Vilnius"}.values
-    assert_equal __, {forks: 10, spoons: 20}.values
+    assert_equal ["Paris", "Vilnius"],
+                 {france: "Paris", lithuania: "Vilnius"}.values
+    assert_equal [10, 20], {forks: 10, spoons: 20}.values
   end
 
   def test_include
-    skip
     boolean = {}.include?("a")
-    maybe boolean
+    refute boolean
     boolean = {"a" => "apple"}.include?("a")
-    maybe boolean
+    assert boolean
     boolean = {"a" => "apple"}.include?("apple")
-    maybe boolean
+    refute boolean
   end
 
   def test_member
-    skip
     boolean = {}.member?("a")
-    maybe boolean
+    refute boolean
     boolean = {"a" => "apple"}.member?("a")
-    maybe boolean
+    assert boolean
     boolean = {"a" => "apple"}.member?("apple")
-    maybe boolean
+    refute boolean
   end
   
   def test_key
     boolean = {}.key?("a")
-    maybe boolean
+    refute boolean
     boolean = {"a" => "apple"}.key?("a")
-    maybe boolean
+    assert boolean
     boolean = {"a" => "apple"}.key?("apple")
-    maybe boolean
+    refute boolean
   end
   
   def test_member_and_include_and_key_with_symbols_and_strings
-    skip
     boolean = {}.include?(:cake)
-    maybe boolean
+    refute boolean
     boolean = {cake: "yummy"}.include?(:cake)
-    maybe boolean
+    assert boolean
     boolean = {"cake": "yummy"}.member?("cake")
-    maybe boolean
+    refute boolean
     boolean = {"cake": "yummy"}.member?(:cake)
-    maybe boolean
+    assert boolean
     boolean = {cake: "yummy"}.key?(:cake)
-    maybe boolean
+    assert boolean
     boolean = {cake: "yummy"}.include?("yummy")
-    maybe boolean
+    refute boolean
     boolean = {cake: "yummy"}.member?("yummy")
-    maybe boolean
+    refute boolean
     boolean = {"cake": "yummy"}.key?("yummy")
-    maybe boolean
+    refute boolean
   end
 
   def test_invert
@@ -283,3 +279,4 @@ class HashTest < Minitest::Test
     assert_equal expected_tv_characters, tv_characters
     assert_equal expected_shape_sides, shape_sides
   end
+end
